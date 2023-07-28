@@ -7,7 +7,9 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "user")
@@ -26,9 +28,12 @@ public class UserEntity {
 	@Column(nullable = false)
 	private String email;
 
-	// TODO: if you want role based authorization you will need to persist this data in the db
-	//  here it's just mocked, @Transient is used to define a field that is not in the db in a jpa entity
-	@Transient
-	private List<String> roles = Collections.singletonList("user");
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(
+			name = "user_role",
+			joinColumns = @JoinColumn(name = "user_username"),
+			inverseJoinColumns = @JoinColumn(name = "role_role_name")
+	)
+	private Set<RoleEntity> roles = new HashSet<>();
 
 }

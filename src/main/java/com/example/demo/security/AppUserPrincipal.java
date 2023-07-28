@@ -16,9 +16,10 @@ public class AppUserPrincipal implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+        // convert db roles to spring authorities
         return userEntity.getRoles()
                 .stream()
-                .map(SimpleGrantedAuthority::new)
+                .map(roleEntity -> new SimpleGrantedAuthority(SecurityConfiguration.ROLE_PREFIX + roleEntity.getRoleName()))
                 .collect(Collectors.toList());
     }
 

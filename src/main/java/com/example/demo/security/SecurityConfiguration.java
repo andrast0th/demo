@@ -26,6 +26,8 @@ import java.util.Optional;
 @EnableMethodSecurity(securedEnabled = true, jsr250Enabled = true)
 public class SecurityConfiguration {
 
+    public static final String ROLE_PREFIX = "ROLE_";
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, JwtTokenFilter jwtTokenFilter,
                                            CorsProperties corsProperties) throws Exception {
@@ -67,7 +69,7 @@ public class SecurityConfiguration {
      */
     @Bean
     public GrantedAuthorityDefaults grantedAuthorityDefaults() {
-        return new GrantedAuthorityDefaults("");
+        return new GrantedAuthorityDefaults(ROLE_PREFIX);
     }
 
 
